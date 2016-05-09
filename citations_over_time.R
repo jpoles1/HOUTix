@@ -1,0 +1,5 @@
+source("initial.R")
+require(stringr)
+tickets_by_time = queryDB("SELECT Event_Date FROM ticket_data")
+tickets_by_time$time = as.POSIXct(tickets_by_time$Event_Date, "", "%m/%d/%Y %H:%M:%S")
+ggplot(tickets_by_time, aes(x=time))+geom_histogram()
