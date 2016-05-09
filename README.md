@@ -7,6 +7,11 @@ The main dataset used in this analysis consists of 550,755 citations handed out 
 
 Without further ado, let's take a look at some analysis of the data!
 
+###Reasons for Citation
+It behooves us to begin with an examination of what the most common reasons are for folk in Houston to receive a ticket. The following chart shows the top 30 reasons for citation, the most common of which are parking in a tow-away zone, and parking at an expired meter.
+
+![Top reasons for citation](https://raw.githubusercontent.com/jpoles1/HOUTix/master/top_citations.png)
+
 ###Tickets by Model Year
 
 The below figure depicts the number of tickets assigned to cars manufactured in various years. We show that there is a steep increase in ticketing in cars manufactured after the 1990s, followed by a sharp decrease in the year 2008 (as highlighted by the red dotted line). This may be a result of the United States financial crisis, and resultant failure/bailout of the American automotive industry. Newer cars are likely to be less common on the roads, and therefore receive fewer overall tickets.
