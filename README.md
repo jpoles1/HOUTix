@@ -22,3 +22,5 @@ The below charts illustrate the number of tickets and ticket rate by automotive 
 ###Top Ticketers
 
 This plots shows the volume of tickets provided by various officers. The plot highlights the fact that only a small proportion of the officers who have registered citations in the system are responsible for the majority of the tickets.
+
+![Top Ticketers](https://raw.githubusercontent.com/jpoles1/HOUTix/master/top_250_ticketers.png)
