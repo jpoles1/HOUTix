@@ -27,9 +27,12 @@ The below figure depicts the number of tickets assigned to cars manufactured in 
 
 ###Tickets by Automotive Make
 
-The below charts illustrate the number of tickets and ticket rate by automotive make respectively. The left-hand plot shows the raw number of tickets given per vehicle make, while the right-hand plot attempts to normalize these values by dividing the number of tickets by the vehicle make's market share (as determined by the edmunds.com team) and transforming the values of the top 20 manufacturers to lie on a 0 to 1 scale.
+The below charts illustrate the number of tickets and ticket rate by automotive make respectively. The top plot shows the raw number of tickets given per vehicle make, while the bottom plot attempts to normalize these values by dividing the number of tickets by the vehicle make's market share (as determined by the edmunds.com team) and transforming the values of the top 20 manufacturers to lie on a 0 to 1 scale.
 
-![Tickets by Automotive Make](https://raw.githubusercontent.com/jpoles1/HOUTix/master/make_comparison_post_2012.png)
+![Tickets by Automotive Make](https://raw.githubusercontent.com/jpoles1/HOUTix/master/make_tickets.png)
+
+![Ticket Rate by Automotive Make](https://raw.githubusercontent.com/jpoles1/HOUTix/master/make_rate.png)
+
 
 ###Top Ticketers
 
