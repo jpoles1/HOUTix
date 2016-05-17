@@ -19,6 +19,10 @@ Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), an
 
 ![Ticket map](https://raw.githubusercontent.com/jpoles1/HOUTix/master/GeoAnalysis/ticket_density.png)
 
+This second map illustrates where the most common locations are for the top 6 most common types of parking infraction. We see that certain infractions, like parking at an expired meter or in a tow-away zone were significantly more common in specific areas (like Downtown or Montrose) while other infractions were spread across the city.
+
+![Ticket map by infraction](https://raw.githubusercontent.com/jpoles1/HOUTix/master/GeoAnalysis/ticket_density_by_infraction.png)
+
 ###Tickets by Model Year
 
 The below figure depicts the number of tickets assigned to cars manufactured in various years. We show that there is a steep increase in ticketing in cars manufactured after the 1990s, followed by a sharp decrease in the year 2008 (as highlighted by the red dotted line). This may be a result of the United States financial crisis, and resultant failure/bailout of the American automotive industry. Newer cars are likely to be less common on the roads, and therefore receive fewer overall tickets.
