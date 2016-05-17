@@ -9,13 +9,13 @@ A second round of analysis was subsequently performed using a new version of the
 
 Without further ado, let's take a look at some analysis of the data!
 
-###Reasons for Citation
-It behooves us to begin with an examination of what the most common reasons are for folk in Houston to receive a ticket. The following chart shows the top 30 reasons for citation, the most common of which are parking in a tow-away zone, and parking at an expired meter.
+###Reason for Citation (Infractions)
+It behooves us to begin with an examination of what the most common reasons are for folk in Houston to receive a ticket. The following chart shows the top 20 infractions, the most common of which are parking in a tow-away zone, and parking at an expired meter.
 
 ![Top reasons for citation](https://raw.githubusercontent.com/jpoles1/HOUTix/master/top_citations.png)
 
 ###Tickets by Location
-Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), and the positional information provided in the updated dataset, we can examine the locations where tickets were most frequently assigned. The below map has the density of parking tickets overlaid, with green representing few tickets, and red indicating a large number of tickets were assigned in the area. This analysis indicates that there are several ticketing hotspots in Houston including the Downtown and Montrose areas, as well as the Rice Village and Medical Center area. 
+Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), and the positional information provided in the updated dataset, we can examine the locations where tickets were most frequently assigned. The below map has the density of parking tickets overlaid, with green representing few tickets, and red indicating a large number of tickets were assigned in the area. This analysis indicates that there are several ticketing hotspots in Houston including the Downtown, Montrose, and Rice Village areas.
 
 ![Ticket map](https://raw.githubusercontent.com/jpoles1/HOUTix/master/GeoAnalysis/ticket_density.png)
 
