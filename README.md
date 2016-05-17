@@ -34,7 +34,7 @@ This second map illustrates the likeliest locations to receive a ticket for the 
 
 ###Tickets by Model Year
 
-The below figure depicts the number of tickets assigned to cars manufactured in various years. We show that there is a steep increase in ticketing of cars manufactured after the 1990s, followed by a sharp decrease in the year 2008 (as highlighted by the red dotted line). This may be a result of the United States financial crisis, and resultant failure/bailout of the American automotive industry. Newer cars are likely to be less common on the roads, and therefore receive fewer overall tickets.
+The below figure depicts the number of tickets assigned to cars manufactured in various years. We show that there is a steep increase in ticketing of cars manufactured after the 1990s, followed by a sharp decrease in the year 2008 (as highlighted by the red dotted line). I hypothesize that this decrease may be a result of the United States financial crisis, and resultant failure/bailout of the American automotive industry. Additionally, I propose that newer cars are likely to be less common on the roads, and therefore receive fewer overall tickets.
 
 ![Tickets by Model Year](https://raw.githubusercontent.com/jpoles1/HOUTix/master/tickets_by_modelyear.png)
 
