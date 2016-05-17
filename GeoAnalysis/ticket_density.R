@@ -7,12 +7,12 @@ prop_missing_coords = round(100*sum(is.na(ticket_coords[,"lat"]))/length(ticket_
 paste("Approximately ",prop_missing_coords,"% of coordinates are missing in this dataset.", sep="")
 ticket_coords = ticket_coords[complete.cases(ticket_coords),]
 colnames(ticket_coords) = c("lat", "long")
-houston_map_data <- get_map("houston", zoom = 12)
+houston_map_data <- get_map("houston", zoom = 12, color="bw")
 png("GeoAnalysis/ticket_density.png", width=800, height=700)
 ggmap(houston_map_data, extent = "device", legend = "topleft")+
   stat_density2d(aes(x = long, y = lat, fill = ..level..), alpha=.35,
                  size = .1, bins = 15, data = ticket_coords, geom = "polygon")+
-  scale_fill_gradient(low = "black", high = "red")+
+  scale_fill_gradient(low = "green", high = "red")+
   ggtitle("Where are you most likely to get a ticket in Houston?")+
   theme(legend.position = "none", plot.title = element_text(size=22))
 dev.off()
