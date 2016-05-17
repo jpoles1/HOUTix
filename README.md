@@ -5,12 +5,19 @@ libreoffice --headless --convert-to csv $filename
 The main dataset used in this analysis consists of 550,755 citations handed out in Houston, Texas over the course of the period from 7/1/12 to 3/31/15. It was sourced from the [Houston Data Portal](http://data.houstontx.gov/dataset/city-of-houston-parking-citations) on 5/7/16. Additional datasets included in this analysis are as follows:
  - [Market Share by Make](http://www.edmunds.com/industry-center/data/market-share-by-make.html)
 
+A second round of analysis was subsequently performed using a new version of the data which included lat/long positional data for each ticket (though certain records are missing this information due to technical issues). This data was downloaded on 5/17/16, again from the [Houston Data Portal](http://data.houstontx.gov/dataset/city-of-houston-parking-citations). In this subsequent analysis, the ggmap tool was used courtesy of [D. Kahle and H. Wickham](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf)
+
 Without further ado, let's take a look at some analysis of the data!
 
 ###Reasons for Citation
 It behooves us to begin with an examination of what the most common reasons are for folk in Houston to receive a ticket. The following chart shows the top 30 reasons for citation, the most common of which are parking in a tow-away zone, and parking at an expired meter.
 
 ![Top reasons for citation](https://raw.githubusercontent.com/jpoles1/HOUTix/master/top_citations.png)
+
+###Tickets by Location
+Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), and the positional information provided in the updated dataset, we can examine the locations where tickets were most frequently assigned. The below map has the density of parking tickets overlaid, with green representing few tickets, and red indicating a large number of tickets were assigned in the area. This analysis indicates that there are several ticketing hotspots in Houston including the Downtown and Montrose areas, as well as the Rice Village and Medical Center area. 
+
+![Ticket map](https://raw.githubusercontent.com/jpoles1/HOUTix/master/GeoAnalysis/ticket_density.png)
 
 ###Tickets by Model Year
 
