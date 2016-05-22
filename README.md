@@ -22,7 +22,7 @@ It behooves us to begin with an examination of what the most common reasons are 
 ![Top reasons for citation](https://raw.githubusercontent.com/jpoles1/HOUTix/master/top_citations.png)
 
 ###Tickets by Location
-Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), and the positional information provided in the updated dataset, we can examine the locations where tickets were most frequently assigned. The below map has the density of parking tickets overlaid, with green representing few tickets, and red indicating a large number of tickets were assigned in the area. This analysis indicates that there are several ticketing hotspots in Houston including the Downtown, Montrose, and Rice Village areas.
+Using [ggmap](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf), and the positional information provided in the updated dataset, we can examine the locations where tickets were most frequently assigned. The below map has the density of parking tickets overlaid, with green representing few tickets, and red indicating a large number of tickets were assigned in the area. Those areas which are not highlighted are not ticketing hotspots, but may still have tickets recorded. This analysis indicates that there are several ticketing hotspots in Houston including the Downtown, Montrose, and Rice Village areas.
 
 ![Ticket map](https://raw.githubusercontent.com/jpoles1/HOUTix/master/GeoAnalysis/ticket_density.png)
 
