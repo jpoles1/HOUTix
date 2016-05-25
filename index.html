@@ -1,46 +1,103 @@
 <html>
   <head>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <link rel="stylesheet" href="PruneCluster.css" />
+    <link rel="stylesheet" href="nouislider.min.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script src="PruneCluster.js"></script>
+    <script src="nouislider.min.js"></script>
+    <script src="wNumb.js"></script>
     <style>
+      body{
+        background-color: #333;
+        padding: 0px;
+        margin: 0;
+        font-family: arial;
+      }
       #houstonmap{
-        width: 80%;
+        width: 75%;
         height: 100%;
       }
       #timeslider{
-
+        height: 80%;
+        position: absolute;
+        top: 15%;
+        right: 13%;
+      }
+      #slider-title{
+        position: absolute;
+        top: -15%;
+        color: #ddd;
+        font-weight: bold;
+        font-size: 18pt;
+        width: 150px;
+        left: -50px;
       }
     </style>
     <script>
       var pruneCluster = new PruneClusterForLeaflet();
       $(function(){
         //Setup leaflet map
-        var houstonmap = L.map('houstonmap').setView([29.7604, -95.3698], 13);
+        var houstonmap = L.map('houstonmap').setView([29.7604, -95.3698], 12);
           L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(houstonmap);
+        var markers = {}
         //Fetch json ticket data
         $.getJSON("ticket_coords.json", function(ticket_coords){
-          console.log(ticket_coords)
-          marker = {}
           //Create ticket dict and register markers with clustering plugin
           for(ticket_id in ticket_coords){
             var entry = ticket_coords[ticket_id];
-            marker[ticket_id] = new PruneCluster.Marker(entry["lat"], entry["long"]);
-            pruneCluster.RegisterMarker(marker[ticket_id]);
+            markers[ticket_id] = new PruneCluster.Marker(entry["lat"], entry["long"]);
+            markers[ticket_id].timept = entry["time"].split(":")[0]
+            markers[ticket_id].filtered = false;
+            pruneCluster.RegisterMarker(markers[ticket_id]);
           }
           //Add everything to the map
           houstonmap.addLayer(pruneCluster);
           pruneCluster.ProcessView();
         })
+        //Setup time-range slider
+        var range = document.getElementById('timeslider');
+        noUiSlider.create(range, {
+        	start: [ 0, 24 ], // Handle start position
+          range: { min: 0, max: 24 },
+        	step: 1, // Slider moves in increments of '10'
+        	margin: 1, // Handles must be more than '20' apart
+        	connect: true, // Display a colored bar between the handles
+        	direction: 'rtl', // Put '0' at the bottom of the slider
+        	orientation: 'vertical', // Orient the slider vertically
+        	behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+        	pips: { // Show a scale with the slider
+        		mode: 'steps',
+        		density: 4,
+            filter: function(){return 1;},
+            format: wNumb({
+        			postfix: ':00'
+        		})
+        	}
+        });
+        range.noUiSlider.on('set', function(values){
+          console.log(values)
+          var low = parseInt(values[0]);
+          var high = parseInt(values[1]);
+          for(markerid in markers){
+            var entity = markers[markerid];
+            if(entity.timept >= low && entity.timept<=high){
+              entity.filtered = false;
+            }
+            else{
+              entity.filtered = true;
+            }
+          }
+          pruneCluster.ProcessView();
+        });
       })
     </script>
   </head>
   <body>
     <div id="houstonmap"></div>
-    <div id="timeslider"></div>
+    <div id="timeslider"><div id="slider-title">Filter by Time of Day:</div></div>
   </body>
 </html>
