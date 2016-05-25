@@ -9,11 +9,16 @@
     <script src="nouislider.min.js"></script>
     <script src="wNumb.js"></script>
     <style>
+      h2{
+        padding-top: 15px;
+        padding-left: 10px;
+      }
       body{
         background-color: #333;
         padding: 0px;
         margin: 0;
         font-family: arial;
+        color: #ddd;
       }
       #container{
         position: relative;
@@ -22,7 +27,8 @@
       }
       #houstonmap{
         width: 70%;
-        height: 100%;
+        height: 92%;
+        color: black;
       }
       #timeslider{
         height: 80%;
@@ -38,8 +44,7 @@
       }
       .slider-title{
         position: absolute;
-        top: -17%;
-        color: #ddd;
+        top: -90px;
         font-weight: bold;
         font-size: 18pt;
         width: 150px;
@@ -145,6 +150,7 @@
   </head>
   <body>
     <div id="container">
+      <h2>HOU Interactive Parking Ticket Map (# Tickets by Area)</h2>
       <div id="houstonmap"></div>
       <div id="timeslider"><div class="slider-title">Filter by Time of Day:</div></div>
       <div id="dowslider"><div class="slider-title">Filter by Day of Week:</div></div>
