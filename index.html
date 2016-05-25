@@ -1,10 +1,10 @@
 <html>
   <head>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="leaflet.css" />
     <link rel="stylesheet" href="PruneCluster.css" />
     <link rel="stylesheet" href="nouislider.min.css" />
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="leaflet.js"></script>
     <script src="PruneCluster.js"></script>
     <script src="nouislider.min.js"></script>
     <script src="wNumb.js"></script>
@@ -15,17 +15,28 @@
         margin: 0;
         font-family: arial;
       }
+      #container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
       #houstonmap{
-        width: 75%;
+        width: 70%;
         height: 100%;
       }
       #timeslider{
         height: 80%;
         position: absolute;
         top: 15%;
-        right: 13%;
+        right: 22%;
       }
-      #slider-title{
+      #dowslider{
+        height: 80%;
+        position: absolute;
+        top: 15%;
+        right: 8%;
+      }
+      .slider-title{
         position: absolute;
         top: -15%;
         color: #ddd;
@@ -33,17 +44,18 @@
         font-size: 18pt;
         width: 150px;
         left: -50px;
+        text-align: center;
       }
     </style>
     <script>
       var pruneCluster = new PruneClusterForLeaflet();
+      var markers = {};
       $(function(){
         //Setup leaflet map
         var houstonmap = L.map('houstonmap').setView([29.7604, -95.3698], 12);
           L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(houstonmap);
-        var markers = {}
         //Fetch json ticket data
         $.getJSON("ticket_coords.json", function(ticket_coords){
           //Create ticket dict and register markers with clustering plugin
@@ -51,6 +63,7 @@
             var entry = ticket_coords[ticket_id];
             markers[ticket_id] = new PruneCluster.Marker(entry["lat"], entry["long"]);
             markers[ticket_id].timept = entry["time"].split(":")[0]
+            markers[ticket_id].DoW = entry["DoW"]
             markers[ticket_id].filtered = false;
             pruneCluster.RegisterMarker(markers[ticket_id]);
           }
@@ -59,32 +72,55 @@
           pruneCluster.ProcessView();
         })
         //Setup time-range slider
-        var range = document.getElementById('timeslider');
-        noUiSlider.create(range, {
-        	start: [ 0, 24 ], // Handle start position
+        var time_range = document.getElementById('timeslider');
+        noUiSlider.create(time_range, {
+        	start: [ 0, 24 ],
           range: { min: 0, max: 24 },
-        	step: 1, // Slider moves in increments of '10'
-        	margin: 1, // Handles must be more than '20' apart
-        	connect: true, // Display a colored bar between the handles
-        	direction: 'rtl', // Put '0' at the bottom of the slider
-        	orientation: 'vertical', // Orient the slider vertically
+        	step: 1,
+        	margin: 1,
+        	connect: true,
+        	direction: 'rtl',
+        	orientation: 'vertical',
         	behaviour: 'tap-drag', // Move handle on tap, bar is draggable
-        	pips: { // Show a scale with the slider
+        	pips: {
         		mode: 'steps',
-        		density: 4,
             filter: function(){return 1;},
             format: wNumb({
         			postfix: ':00'
         		})
         	}
         });
-        range.noUiSlider.on('set', function(values){
-          console.log(values)
-          var low = parseInt(values[0]);
-          var high = parseInt(values[1]);
+        //Day of Week slidervar time_range = document.getElementById('timeslider');
+        var dow_range = document.getElementById('dowslider');
+        noUiSlider.create(dow_range, {
+          start: [ 1, 7 ],
+          range: { min: 1, max: 7 },
+          step: 1,
+          margin: 0,
+          connect: true,
+          direction: 'rtl',
+          orientation: 'vertical',
+          behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+          pips: {
+            mode: 'steps',
+            filter: function(){return 1;},
+          }
+        });
+        //Rename DoW numbers to abbreviations
+        $('#dowslider .noUi-value-vertical').each(function(){
+          var val = $(this).html();
+          val = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"][parseInt(val)-1];
+          $(this).html(val);
+        });
+        //Setup listener functions
+        var time_low=0
+        var time_high=24;
+        var DoW_low = 1;
+        var DoW_high = 7;
+        filter_markers = function(){
           for(markerid in markers){
             var entity = markers[markerid];
-            if(entity.timept >= low && entity.timept<=high){
+            if(entity.timept >= time_low && entity.timept<= time_high && entity.DoW >= DoW_low && entity.DoW <= DoW_high){
               entity.filtered = false;
             }
             else{
@@ -92,12 +128,26 @@
             }
           }
           pruneCluster.ProcessView();
+        }
+        time_range.noUiSlider.on('set', function(values){
+          time_low = parseInt(values[0]);
+          time_high = parseInt(values[1]);
+          filter_markers();
+        });
+        dow_range.noUiSlider.on('set', function(values){
+          console.log(values)
+          DoW_low = parseInt(values[0]);
+          DoW_high = parseInt(values[1]);
+          filter_markers();
         });
       })
     </script>
   </head>
   <body>
-    <div id="houstonmap"></div>
-    <div id="timeslider"><div id="slider-title">Filter by Time of Day:</div></div>
+    <div id="container">
+      <div id="houstonmap"></div>
+      <div id="timeslider"><div class="slider-title">Filter by Time of Day:</div></div>
+      <div id="dowslider"><div class="slider-title">Filter by Day of Week:</div></div>
+    </div>
   </body>
 </html>
