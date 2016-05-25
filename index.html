@@ -32,16 +32,24 @@
         color: black;
       }
       #timeslider{
-        height: 80%;
-        position: absolute;
-        top: 15%;
         right: 22%;
       }
       #dowslider{
+        right: 8%;
+      }
+      .slider{
         height: 80%;
         position: absolute;
         top: 15%;
-        right: 8%;
+      }
+      @media (max-height: 600px){
+        h2{
+          margin-bottom: 5px;
+        }
+        .slider{
+          height: 75%;
+          top: 20%;
+        }
       }
       .slider-title{
         position: absolute;
@@ -52,6 +60,7 @@
         left: -50px;
         text-align: center;
       }
+
     </style>
     <script>
       var pruneCluster = new PruneClusterForLeaflet();
@@ -153,8 +162,8 @@
     <div id="container">
       <h2>HOU Interactive Parking Ticket Map (# Tickets by Area)</h2>
       <div id="houstonmap"></div>
-      <div id="timeslider"><div class="slider-title">Filter by Time of Day:</div></div>
-      <div id="dowslider"><div class="slider-title">Filter by Day of Week:</div></div>
+      <div id="timeslider" class="slider"><div class="slider-title">Filter by Time of Day:</div></div>
+      <div id="dowslider" class="slider"><div class="slider-title">Filter by Day of Week:</div></div>
     </div>
   </body>
 </html>
