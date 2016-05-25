@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="PruneCluster.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="PruneCluster.js"></script>
+    <style>
+      #houstonmap{
+        width: 80%;
+        height: 100%;
+      }
+      #timeslider{
+
+      }
+    </style>
+    <script>
+      var pruneCluster = new PruneClusterForLeaflet();
+      $(function(){
+        //Setup leaflet map
+        var houstonmap = L.map('houstonmap').setView([29.7604, -95.3698], 13);
+          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(houstonmap);
+        //Fetch json ticket data
+        $.getJSON("ticket_coords.json", function(ticket_coords){
+          console.log(ticket_coords)
+          marker = {}
+          //Create ticket dict and register markers with clustering plugin
+          for(ticket_id in ticket_coords){
+            var entry = ticket_coords[ticket_id];
+            marker[ticket_id] = new PruneCluster.Marker(entry["lat"], entry["long"]);
+            pruneCluster.RegisterMarker(marker[ticket_id]);
+          }
+          //Add everything to the map
+          houstonmap.addLayer(pruneCluster);
+          pruneCluster.ProcessView();
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div id="houstonmap"></div>
+    <div id="timeslider"></div>
+  </body>
+</html>
