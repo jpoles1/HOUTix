@@ -85,7 +85,7 @@
               markers[ticket_id].timept = entry["time"].split(":")[0]
               markers[ticket_id].DoW = entry["DoW"]
               markers[ticket_id].filtered = false;
-              markers[ticket_id].data.popup = DoW[entry["DoW"]]+" at "+entry["time"]+"<br>"+violations[0][entry["reason"]];
+              markers[ticket_id].data.popup = DoW[entry["DoW"]-1]+" at "+entry["time"]+"<br>"+violations[0][entry["reason"]];
               pruneCluster.RegisterMarker(markers[ticket_id]);
             }
             //Add everything to the map
