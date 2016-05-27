@@ -2,11 +2,13 @@
 ####By Jordan Poles
 
 ###Overview of the Data
-This report represents preliminary analysis on certain trends in Houston parking tickets, as well as an [interactive map](http://jpoles1.github.io/HOUTix/) for use in exploring the localization of these tickets with respect to time.
+This report represents preliminary analysis on certain trends in Houston parking tickets, in addition to an [interactive map](http://jpoles1.github.io/HOUTix/) for use in exploring the localization of these tickets with respect to time.
 
 The main dataset used in this analysis consists of 550,755 citations handed out in Houston, Texas over the course of the period from 7/1/12 to 3/31/15. It was sourced from the [Houston Data Portal](http://data.houstontx.gov/dataset/city-of-houston-parking-citations) on 5/7/16. 
 
-A second round of analysis was performed using a new version of the data which included lat/long positional data for each ticket (this data spans the period from 7/1/14 to 3/31/16). Certain records are missing this information due to technical issues with the GPS in the ticketing devices. This data was downloaded on 5/17/16, again from the [Houston Data Portal](http://data.houstontx.gov/dataset/city-of-houston-parking-citations). In this subsequent analysis, the ggmap tool was used courtesy of [D. Kahle and H. Wickham](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf).
+A second round of analysis was performed using a new version of the data which included lat/long positional data for each ticket (this data spans the period from 7/1/14 to 3/31/16). Certain records are missing this information due to technical issues with the GPS in the ticketing devices. This data was downloaded on 5/17/16, again from the [Houston Data Portal](http://data.houstontx.gov/dataset/city-of-houston-parking-citations). In this subsequent analysis, the ggmap tool was used courtesy of [D. Kahle and H. Wickham](http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf). 
+
+I ultimately realized that ggmaps was insufficient for displaying the density of tickets over time across the city, and turned to a more interactive approach. I hope that providing the user more interactivity with the map will allow them to spot patterns in areas that matter to them. This could be valuable for research purposes. To build my interactive map, I used leaflet.js, in combination with map data from OpenStreetMap. The PruneCluster plugin for leaflet was used to display density/clusters of tickets.
 
 Additional datasets included in this analysis are as follows:
 
