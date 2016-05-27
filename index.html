@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="leaflet.css" />
     <link rel="stylesheet" href="PruneCluster.css" />
     <link rel="stylesheet" href="nouislider.min.css" />
+    <link rel="stylesheet" href="main.css" />
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="leaflet.js"></script>
     <script src="PruneCluster.js"></script>
@@ -19,67 +20,10 @@
 
     </script>
     <title>Houston Interactive Parking Ticket Map</title>
-    <style>
-      h2{
-        padding-top: 15px;
-        padding-left: 10px;
-      }
-      body{
-        background-color: #333;
-        padding: 0px;
-        margin: 0;
-        font-family: arial;
-        color: #ddd;
-      }
-      #container{
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-      #houstonmap{
-        width: 70%;
-        height: 92%;
-        color: black;
-      }
-      #timeslider{
-        right: 22%;
-      }
-      #dowslider{
-        right: 8%;
-      }
-      .slider{
-        height: 80%;
-        position: absolute;
-        top: 15%;
-      }
-      @media (max-height: 600px){
-        h2{
-          margin-bottom: 5px;
-        }
-        .slider{
-          height: 75%;
-          top: 20%;
-        }
-      }
-      .slider-title{
-        position: absolute;
-        top: -90px;
-        font-weight: bold;
-        font-size: 18pt;
-        width: 150px;
-        left: -50px;
-        text-align: center;
-      }
-      .leaflet-popup-content{
-        text-align: center;
-      }
-      .leaflet-control-attribution{
-        background-color: #333 !important;
-        color: #fff !important;
-        opacity: .9;
-      }
-    </style>
     <script>
+      String.prototype.capitalizeFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+      }
       var pruneCluster = new PruneClusterForLeaflet();
       var markers = {};
       var DoW = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
@@ -91,7 +35,12 @@
         }).addTo(houstonmap);
         //Fetch json ticket data
         $.getJSON("violation_index.json", function(violations){
-          console.log(violations)
+          violations = violations[0];
+          for(violation in violations){
+            violations[violation] = violations[violation].capitalizeFirstLetter();
+            violation_name = violations[violation]
+            $("#violation-list").append("<input type='checkbox' value="+violation+">"+violation_name+"</input><br>");
+          }
           $.getJSON("ticket_coords.json", function(ticket_coords){
             //Create ticket dict and register markers with clustering plugin
             for(ticket_id in ticket_coords){
@@ -100,7 +49,7 @@
               markers[ticket_id].timept = entry["time"].split(":")[0]
               markers[ticket_id].DoW = entry["DoW"]
               markers[ticket_id].filtered = false;
-              markers[ticket_id].data.popup = DoW[entry["DoW"]-1]+" at "+entry["time"]+"<br>"+violations[0][entry["reason"]];
+              markers[ticket_id].data.popup = DoW[entry["DoW"]-1]+" at "+entry["time"]+"<br>"+violations[entry["reason"]];
               pruneCluster.RegisterMarker(markers[ticket_id]);
             }
             //Add everything to the map
@@ -186,6 +135,12 @@
       <div id="houstonmap"></div>
       <div id="timeslider" class="slider"><div class="slider-title">Filter by Time of Day:</div></div>
       <div id="dowslider" class="slider"><div class="slider-title">Filter by Day of Week:</div></div>
+      <div id="violation-select">
+        <h3>Filter on Violation:</h3>
+        <form id="violation-list">
+
+        </form>
+      </div>
     </div>
   </body>
 </html>
