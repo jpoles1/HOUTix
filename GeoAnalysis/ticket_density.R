@@ -8,9 +8,10 @@ raw_2015_to_2016 = read.csv("GeoAnalysis/Parking Citations in T2 07-01-2015 to 0
 #And combine
 raw_data = rbind(raw_2014_to_2015, raw_2015_to_2016)
 raw_data$Event_Date = format(as.POSIXct(raw_data$Event_Date, "", "%m/%d/%Y %H:%M:%S"), tz="America/Chicago", usetz=1)
-raw_data$Event_Time = strftime(raw_data$Event_Date, format="%H:%M") 
-ticket_coords = subset(raw_data, 1==1, c("VIC_LEGAL_DESCRIPTION", "Latitude", "Longitude", "Event_Time"))
-colnames(ticket_coords) = c("reason", "lat", "long", "time")
+raw_data$Event_Time = strftime(raw_data$Event_Date, format="%H:%M")
+raw_data$Event_DoW = strftime(raw_data$Event_Date, format="%u")
+ticket_coords = subset(raw_data, 1==1, c("VIC_LEGAL_DESCRIPTION", "Latitude", "Longitude", "Event_DoW", "Event_Time"))
+colnames(ticket_coords) = c("reason", "lat", "long", "DoW", "time")
 prop_missing_coords = round(100*sum(is.na(ticket_coords[,"lat"]))/length(ticket_coords[,"lat"]))
 paste("Approximately ",prop_missing_coords,"% of coordinates are missing in this dataset.", sep="")
 ticket_coords = ticket_coords[complete.cases(ticket_coords),]
