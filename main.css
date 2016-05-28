@@ -1,5 +1,4 @@
 h2{
-  padding-top: 15px;
   padding-left: 10px;
 }
 body{
@@ -16,38 +15,52 @@ body{
   overflow: hidden;
 }
 #houstonmap{
+  width: 100%;
+  height: 100%;
+  color: black;
+}
+#map-container{
   width: 70%;
   height: 92%;
   color: black;
 }
-#timeslider{
-  right: 22%;
+#interface{
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 29%;
+  padding-top: 10px;
 }
-#dowslider{
-  right: 8%;
+#control-block{
+  display: inline;
+  width: 70%;
+}
+.slider{
+  height: 80%;
+  margin: auto;
+  margin-top: 15px;
 }
 #violation-select{
-  width: 25%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: #ddd;
-  z-index: 99;
-  color: #333;
+  height: 80%;
   text-align: center;
 }
 #violation-list{
   height: 100%;
   padding-bottom: 40px;
+  overflow-y: scroll;
+  font-size: 15pt;
+}
+#violation-select button{
+  font-size: 16pt;
+}
+.check-spacer{
+  margin-bottom: 15px;
 }
 #violation-list input{
   margin-bottom: 2px;
-}
-.slider{
-  height: 80%;
-  position: absolute;
-  top: 15%;
+  width: 18px;
+  height: 18px;
 }
 @media (max-height: 600px){
   h2{
@@ -59,12 +72,10 @@ body{
   }
 }
 .slider-title{
-  position: absolute;
-  top: -90px;
   font-weight: bold;
   font-size: 18pt;
-  width: 150px;
-  left: -50px;
+  width: 100%;
+  padding: 10px;
   text-align: center;
 }
 .leaflet-popup-content{

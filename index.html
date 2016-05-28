@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="leaflet.css" />
     <link rel="stylesheet" href="PruneCluster.css" />
     <link rel="stylesheet" href="nouislider.min.css" />
+    <link rel="stylesheet" href="tabs.css" />
     <link rel="stylesheet" href="main.css" />
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="leaflet.js"></script>
@@ -36,11 +37,19 @@
         //Fetch json ticket data
         $.getJSON("violation_index.json", function(violations){
           violations = violations[0];
+          violation_boxes = [];
           for(violation in violations){
             violations[violation] = violations[violation].capitalizeFirstLetter();
             violation_name = violations[violation]
-            $("#violation-list").append("<input type='checkbox' value="+violation+">"+violation_name+"</input><br>");
+            $("#violation-list").append("<input type='checkbox' value="+violation+" checked='checked'>"+violation_name+"</input><br><div class='check-spacer'></div>");
+            active_violations.push(parseInt(violation));
           }
+          $("#violation-list").append("<br><div class='check-spacer'></div>")
+          $('#violation-list input').click(function(){
+            updateViolations();
+            $('#violation-select button').attr("clicks", 1);
+            $('#violation-select button').html('Uncheck All');
+          })
           $.getJSON("ticket_coords.json", function(ticket_coords){
             //Create ticket dict and register markers with clustering plugin
             for(ticket_id in ticket_coords){
@@ -48,6 +57,7 @@
               markers[ticket_id] = new PruneCluster.Marker(entry["lat"], entry["long"]);
               markers[ticket_id].timept = entry["time"].split(":")[0]
               markers[ticket_id].DoW = entry["DoW"]
+              markers[ticket_id].reason = entry["reason"];
               markers[ticket_id].filtered = false;
               markers[ticket_id].data.popup = DoW[entry["DoW"]-1]+" at "+entry["time"]+"<br>"+violations[entry["reason"]];
               pruneCluster.RegisterMarker(markers[ticket_id]);
@@ -103,10 +113,11 @@
         var time_high=24;
         var DoW_low = 1;
         var DoW_high = 7;
+        var active_violations = [];
         filter_markers = function(){
           for(markerid in markers){
             var entity = markers[markerid];
-            if(entity.timept >= time_low && entity.timept<= time_high && entity.DoW >= DoW_low && entity.DoW <= DoW_high){
+            if(entity.timept >= time_low && entity.timept<= time_high && entity.DoW >= DoW_low && entity.DoW <= DoW_high && $.inArray(entity.reason, active_violations)!=-1){
               entity.filtered = false;
             }
             else{
@@ -126,20 +137,76 @@
           DoW_high = parseInt(values[1]);
           filter_markers();
         });
+        $('#violation-select button').click(function() {
+          var clicks = $(this).attr('clicks');
+          if (clicks==0) {
+            $('#violation-list input').prop("checked", true);
+            $(this).html('Uncheck All');
+          } else {
+            $('#violation-list input').prop('checked', false);
+            $(this).html('Check All');
+          }
+          $(this).attr("clicks", 1-clicks);
+          updateViolations();
+        });
+        updateViolations = function(){
+          active_violations = [];
+          $("#violation-list input").each(function(){
+            if($(this).prop("checked")){
+              active_violations.push(parseInt($(this).val()));
+            }
+          });
+          console.log(active_violations);
+          filter_markers();
+        }
+        //tab menu events
+        $(".tabs-menu a").click(function(event) {
+          event.preventDefault();
+          $(this).parent().addClass("current");
+          $(this).parent().siblings().removeClass("current");
+          var tab = $(this).attr("href");
+          $(".tab-content").not(tab).css("display", "none");
+          $(tab).fadeIn();
+        });
       })
     </script>
   </head>
   <body>
     <div id="container">
       <h2>HOU Interactive Parking Ticket Map (# Tickets by Area)</h2>
-      <div id="houstonmap"></div>
-      <div id="timeslider" class="slider"><div class="slider-title">Filter by Time of Day:</div></div>
-      <div id="dowslider" class="slider"><div class="slider-title">Filter by Day of Week:</div></div>
-      <div id="violation-select">
-        <h3>Filter on Violation:</h3>
-        <form id="violation-list">
+      <div id="map-container">
+        <div id="houstonmap"></div>
+      </div>
+      <div id="interface">
+        <div style="position: relative;">
+          <div id="tabs-container">
+            <ul class="tabs-menu">
+              <li class="current"><a href="#tab-1">Time</a></li>
+              <li><a href="#tab-2">DoW</a></li>
+              <li><a href="#tab-3">Reason</a></li>
+            </ul>
+            <div class="tab">
+                <div id="tab-1" class="tab-content">
+                  <div class="slider-title">Filter by Time of Day:</div>
+                  <div id="timeslider" class="slider"></div>
+                </div>
+                <div id="tab-2" class="tab-content">
+                  <div class="slider-title">Filter by Day of Week:</div>
+                  <div id="dowslider" class="slider"></div>
+                </div>
+                <div id="tab-3" class="tab-content">
+                  <div id="violation-select">
+                    <h3>Filter on Violation:</h3>
+                    <button type="button" clicks=1>Uncheck All</button>
+                    <br>
+                    <br>
+                    <form id="violation-list">
 
-        </form>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
   </body>
